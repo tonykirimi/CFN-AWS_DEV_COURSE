@@ -1,4 +1,4 @@
-AWS TemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: 2010-09-09
 Description: My Base EC2 Instance
 
 #   RESOURCES SECTION
