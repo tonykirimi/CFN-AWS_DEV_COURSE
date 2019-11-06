@@ -1,0 +1,24 @@
+AWS TemplateFormatVersion: 2010-09-09
+Description: My Base EC2 Instance
+
+#   RESOURCES SECTION
+
+Resources: 
+  MyEC2Server01:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-00dc79254d0461090
+      InstanceType: t2.micro
+      KeyName: developercourse
+      SecurityGroups:
+        - default
+      InstanceInitiatedShutdownBehavior: stop
+      Tags:
+        - Key: 'Name'
+          Value: Webserver01
+        - Key: 'Team'
+          Value: 'IT'
+
+
+
+      
