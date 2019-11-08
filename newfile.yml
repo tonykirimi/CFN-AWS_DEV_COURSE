@@ -1,0 +1,79 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: AWS Stack on Parameters
+
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: "Network Configuration"    
+        Parameters:
+          - ListOfVPCs
+          - AvailableSubnets
+          - AvailabilityZones  
+      - Label:
+          default: "Amazon EC2 Configuration"          
+        Parameters:
+          - Images
+          - AllowedInstanceTypes
+          - MyKeynames  
+    ParameterLabels:
+      ListOfVPCs:
+        default: "VPCID"
+      AvailableSubnets:
+        default: "SubnetID"
+      AvailabilityZones:
+        default: "AvailabilityZones"
+      Images:
+        default: "ImageID"
+      AllowedInstanceTypes:
+        default: "InstanceType"
+      MyKeynames:
+        default: "KeyPair"        
+# Parameters
+
+Parameters:
+  Images:
+    Type: String
+    Description: Select 64bit or 32bit
+    AllowedValues: ['ami-00dc79254d0461090', 'ami-0d08fa65f81355d86']
+  AllowedInstanceTypes:
+    Type: String 
+    Description: The allowed Instance types 
+    AllowedValues: ['t2.micro', 't2.small']
+  MyKeynames:
+    Type: AWS::EC2::KeyPair::KeyName
+    Description: Choose from the available key names.
+  AvailabilityZones:
+    Type: AWS::EC2::AvailabilityZone::Name
+    Description: Availability zones in the specified ec2:DescribeRegions
+  ListOfVPCs:
+    Type: AWS::EC2::VPC::Id
+    Description: List of VPCs.
+  AvailableSubnets:
+    Type: AWS::EC2::Subnet::Id
+    Description: List of Subnets.
+# AWs metadata interface
+Resources: # Mandatory component.
+  MyEC2Server01:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref Images
+      InstanceType: !Ref AllowedInstanceTypes
+      InstanceInitiatedShutdownBehavior: stop
+      KeyName: !Ref MyKeynames
+      SecurityGroupIds: 
+        - !GetAtt  MyHttpSecurityGroup.GroupId
+      AvailabilityZone: !Ref AvailabilityZones
+      SubnetId: !Ref AvailableSubnets
+  MyHttpSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group for my webserver .
+      GroupName: WebserverSecurityGroup
+      SecurityGroupIngress:
+        - IpProtocol: tcp 
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      VpcId: !Ref ListOfVPCs
