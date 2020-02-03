@@ -1,0 +1,27 @@
+                                                  File: bastion.sh
+#!/bin/bash
+: '
+Author: Gitonga Tony Kirimi
+Title: Bastion hosts SSH
+Date: 03/02/2020
+
+'
+echo "Enter the service you want to access."
+echo "   a) xxx"
+echo "   b) xxx"
+echo "   c) xxx"
+read service
+if [ "$service" == "xxxx" ]
+then
+    ssh -i xxx.pem ubuntu@x.x.x.x -p xxx
+
+elif [ "$service" == "pesatransact" ]
+then
+    ssh -i xxx.pem ubuntu@x.x.x.x -p xxx
+    
+else
+    ssh -i xxx.pem ubuntu@x.x.x.x -p xxx
+fi
+
+
+
